@@ -8,6 +8,7 @@ namespace LemonadeStand
 {
     static class UserInterface
     {
+        
         public static int GetNumberOfItems(string itemsToGet)
         {
             bool userInputIsAnInteger = false;
@@ -40,5 +41,9 @@ namespace LemonadeStand
             return quantityOfItem;
         }
 
+        public static void DisplayWelcome() 
+        {
+            Console.WriteLine("Welcome To Lemonade Stand!");
+        }
     }
 }

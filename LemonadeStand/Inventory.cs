@@ -21,6 +21,7 @@ namespace LemonadeStand
             sugarCubes = new List<SugarCube>();
             iceCubes = new List<IceCube>();
             cups = new List<Cup>();
+            //Loads inventory when spawned
             AddLemonsToInventory(20);
             AddSugarCubesToInventory(20);
             AddIceCubesToInventory(100);
