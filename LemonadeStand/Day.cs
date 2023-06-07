@@ -27,6 +27,16 @@ namespace LemonadeStand
             weather.PredictWeather();
         }
 
+        //Calculate Customers
+            //Conditionals for temp to give the amount of customers that day.
+            //Variable to hold customers
+            //Loop through variable to create new customers. 
+
+
+        //Calculate sales
+            //variable to hold total cups sold
+            //variable to hold income from sales
+            //Loop through the customers list to sell 
 
     }
 }

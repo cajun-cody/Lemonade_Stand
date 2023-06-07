@@ -14,7 +14,6 @@ namespace LemonadeStand
         public List<string> condition; //Sunny, Rainy, Windy
         public int temperature; //Temp range of 90, 80, 70
         private Dictionary<int,string> weatherConditions; //Combination list of int and string to hold condition and temp
-       /* public string predictedForcast; *///used to call a method to predict the weatherConditions at random. 
         public Random random;
         public string predictedCondition;
 
@@ -22,11 +21,11 @@ namespace LemonadeStand
         public Weather()
         {
             temperature = 0;   
-            condition = new List<string> {"Sunny", "Rainy", "Windy", "Sunny"};
+            condition = new List<string> {"Sunny", "Rainy", "Windy", "Sunny"}; //2 Sunny options to make odds of sunny better. 
             predictedCondition = "";
             random = new Random();
-            weatherConditions = new Dictionary<int, string> ();
-            PredictWeather();
+            weatherConditions = new Dictionary<int, string> (); //Empty string we will add temp and condition to in methods.
+            PredictWeather(); //Method to get temp and condition.
         }
 
         //Member Methods
@@ -58,19 +57,24 @@ namespace LemonadeStand
         }
         public void WeeklyForcast()
         {
+            //Array to hold days of the week. 
             string[] daysOfWeek = new string[] { "Monday", "Tuesday", "Wednesday", "Thuesday", "Friday", "Saturday", "Sunday" };
-            Console.WriteLine($"This weeks forcast is!!");
+            Console.WriteLine($"Here is this week's forecast!!");
+            //Loop over the amount of days in the week.
             for (int i = 0; i < 7; i++)
             {
-                PredictWeather ();
-                weatherConditions.Add(temperature, predictedCondition);
+                PredictWeather (); //Get the temp and condition
+                weatherConditions.Add(temperature, predictedCondition); //Add the temp and condition to dictionary. 
                 Console.WriteLine($"{daysOfWeek[i]}'s weather should be {temperature} and {predictedCondition}");
             }
         }
-        public void ActualWeather()
+        public void ActualWeatherForTheDay()
         {
             //Print what the actual weather for the day is each day. 
-            //Check to see if day of the week is 0-
+            //Check to see if day of the week it is. 
+            PredictWeather(); //Get a rerandomized temp and condition.
+            Console.WriteLine($"\nToday's weather is {temperature} and {predictedCondition} ");
+
         }
 
     }

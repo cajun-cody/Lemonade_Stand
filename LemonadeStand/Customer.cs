@@ -19,6 +19,9 @@ namespace LemonadeStand
         }
 
         //Member Methods
-        //needs to be able to purchase a cup. 
+
+        //Needs to be able to purchase a cup. 
+            //Need to have most customers buy but some not. 
+            //Conditional if customer purchases then add value to sold cups. 
     }
 }
