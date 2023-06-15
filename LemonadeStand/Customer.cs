@@ -21,6 +21,10 @@ namespace LemonadeStand
         //Member Methods
 
         //Needs to be able to purchase a cup. 
+        public int PurchaseLemonade(Random random, int purchaseProbability)
+        {
+            int toBuy = random.Next(purchaseProbability);
+        }
             //Need to have most customers buy but some not. 
             //Conditional if customer purchases then add value to sold cups. 
     }

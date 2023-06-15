@@ -44,7 +44,7 @@ namespace LemonadeStand
         public static void DisplayWelcome() 
         {
             Console.WriteLine("Welcome To Lemonade Stand!\n You have 7 days to make as much money as you can.\n ");
-            Console.WriteLine("The weather, along with your pricing, can affect your success\n Can you make the big bucks?\n");
+            Console.WriteLine("The weather, along with your pricing, can affect your success\nCan you make the big bucks?\n");
         }
     }
 }

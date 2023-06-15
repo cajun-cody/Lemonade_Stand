@@ -13,6 +13,7 @@ namespace LemonadeStand
         private List<Day> days;
         private int currentDay;
         private Weather weather;
+        public Store store;
         
         public List<Day> Days { get { return days; } }
         //Constructor- Remember to spawn your new variables. 
@@ -21,6 +22,10 @@ namespace LemonadeStand
             days = new List<Day>();
             currentDay = 0;
             weather = new Weather();
+            player = new Player();
+            store = new Store();
+            
+            
 
         }
 
@@ -36,14 +41,28 @@ namespace LemonadeStand
                 Console.WriteLine($"Day {i} begins!");
             }
         }
+        //Need to be able to buy product.
+        public void GoShopping()
+        {
+            //Display Inventory
+            player.inventory.DisplayCurrentInventory();
+            store.SellLemons(player);
+            store.SellSugarCubes(player);
+            store.SellIceCubes(player);
+            store.SellCups(player);
+
+        }
 
         public void RunGame()
         {
             UserInterface.DisplayWelcome(); //Working
-            //Create Store to buy supplies
-                //Display Inventory
-                //Sell Supplies to Player
+            //Show weeks weather.
             weather.WeeklyForcast(); //Working but with an issue of duplicated keys.
+            //Create Store, show inventory and buy supplies. 
+            GoShopping();//Sell Supplies to Player and show new inventory.
+            player.inventory.DisplayCurrentInventory();
+
+            //Create what the day looks like. 
 
 
             //While Loop to run game each day with max of 7. 

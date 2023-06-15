@@ -65,6 +65,10 @@ namespace LemonadeStand
             }
         }
 
+        public void DisplayCurrentInventory()
+        {
+            Console.WriteLine($"You have {lemons.Count} of lemons.\nYou have {sugarCubes.Count} suger cubes.\nYou have {iceCubes.Count} ice cubes.\nYou have {cups.Count} cups.\n");
+        }
    
 
     }
