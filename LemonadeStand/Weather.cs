@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace LemonadeStand
             predictedCondition = "";
             random = new Random();
             weatherConditions = new Dictionary<int, string> (); //Empty string we will add temp and condition to in methods.
-            PredictWeather(); //Method to get temp and condition.
+            //PredictWeather(); //Method to get temp and condition.
         }
 
         //Member Methods
@@ -57,16 +58,25 @@ namespace LemonadeStand
         }
         public void WeeklyForcast()
         {
+       
             //Array to hold days of the week. 
-            string[] daysOfWeek = new string[] { "Monday", "Tuesday", "Wednesday", "Thuesday", "Friday", "Saturday", "Sunday" };
-            Console.WriteLine($"Here is this week's forecast!!");
-            //Loop over the amount of days in the week.
-            for (int i = 0; i < 7; i++)
-            {
-                PredictWeather (); //Get the temp and condition
-                weatherConditions.Add(temperature, predictedCondition); //Add the temp and condition to dictionary. 
-                Console.WriteLine($"{daysOfWeek[i]}'s weather should be {temperature} and {predictedCondition}");
-            }
+                string[] daysOfWeek = new string[] { "Monday", "Tuesday", "Wednesday", "Thuesday", "Friday", "Saturday", "Sunday" };
+                Console.WriteLine($"Here is this week's forecast!!");
+                //Loop over the amount of days in the week.
+                for (int i = 0; i < 7; i++)
+                {
+                    PredictWeather (); //Get the temp and condition
+                    //Use a while loop to check if predictedCondition has all unique keys then run predict weather again. 
+                    while (weatherConditions.ContainsKey(temperature))
+                {
+                    PredictWeather();
+                }
+                    weatherConditions.Add(temperature, predictedCondition); //Add the temp and condition to dictionary. 
+                    Console.WriteLine($"{daysOfWeek[i]}'s weather should be {temperature} and {predictedCondition}");
+ 
+                }
+
+
         }
         public void ActualWeatherForTheDay()
         {

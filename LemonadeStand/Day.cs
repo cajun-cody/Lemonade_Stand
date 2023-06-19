@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,10 @@ namespace LemonadeStand
         public Day()
         {
             weather = new Weather();
+            //This is a new list of customers. Not filled up yet. 
             customer = new List<Customer>();
             purchaseProbability = 0;
-
+            random = new Random();
         }
         
         //Member Variables
@@ -30,10 +32,14 @@ namespace LemonadeStand
             weather.ActualWeatherForTheDay();
         }
 
-        public void RunDay()
+        public void RunStand()
         {
+            //Actual Weather.
             DailyPredictedWeather();
-            Random random = new Random();
+            //Estimate Customers.
+            EstimateCustomers();
+            //Calculate sales depending on price. //Sales will depend on cups and price.
+            
             
         }
 
@@ -53,47 +59,67 @@ namespace LemonadeStand
                 estimatedCustomers = 20;
                 purchaseProbability = 10;
             }
+            //Else carries sunny condition.
             else
             {
                 estimatedCustomers = 30;
                 purchaseProbability = 15;
             }
             
-            //Loop to Create customers off of estimation. 
+            //Loop to Create customers off of estimation depending on purchaseProbability. 
             for (int i = 0; i < estimatedCustomers; i++)
             {
-                customer.Add(new Customer());
+                
+                if (purchaseProbability == 5)
+                {
+                    int bigSpenders = new Random().Next(5, 10);
+                    customer.Add(new Customer(bigSpenders));
+                }
+                else if (purchaseProbability == 10)
+                {
+                    int bigSpenders = new Random().Next(10, 20);
+                    customer.Add(new Customer(bigSpenders));
+                }
+                else if (purchaseProbability == 15)
+                {
+                    int bigSpenders = new Random().Next(20, 30);
+                    customer.Add(new Customer(bigSpenders));
+                }
+
             }
 
         }
 
-        //Calculate sales depending on price per cup. Need to have parameters for cups and price. 
-        //If no cups left then sold out. If price is too high, customer doesn't buy. 
-       public void DailySales(int cupsLeft, double price)
+        //Calculate sales depending on if inventory of cups is sold out. Display sales at the end. 
+       public void DailySales(int cupsToSell,  double price)
         {
+            //variable to hold total cups sold
+            //variable to hold income from sales
             int cupsSold = 0;
             double dailyIncome = 0;
+           
+            //Loop through the customers list to sell by price.
             foreach (Customer person in customer)
             {
+                //I need to bring in how many cups I have of lemonade made. 
                 Console.WriteLine("Ohh look lemonade. How much is a cup?");
-                if (cupsLeft > 0)
+                if (cupsToSell > 0)
                 {
-                    //Conditional on if price is too high or too low. 
-                    if (price > 0)
-                    {
-                        int purchased = person.
-                    }
-                }
+                    int purchased = person.PurchaseLemonade();
+                    cupsSold++;
+                    cupsToSell--;
+                    dailyIncome += cupsSold * price;
+                 }
                 else
                 {
                     Console.WriteLine("Sorry, we are sold out!");
                 }
             }
-
+            Console.WriteLine($"Cups sold today: {cupsSold}");
+            Console.WriteLine($"Todays take: {dailyIncome}");
         }
-            //variable to hold total cups sold
-            //variable to hold income from sales
-            //Loop through the customers list to sell by price.
+            
+            
 
 
     }

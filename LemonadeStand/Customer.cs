@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,22 +11,22 @@ namespace LemonadeStand
     {
         //Member Variables
         public string name;
-
+        int toBuy;
 
         //Constructor
-        public Customer()
+        public Customer(int bigSpenders)
         {
             name = "Customer";
         }
 
         //Member Methods
 
-        //Needs to be able to purchase a cup. 
-        public int PurchaseLemonade(Random random, int purchaseProbability)
+        //Needs to be able to purchase a cup depending on price.  
+        public int PurchaseLemonade()
         {
-            int toBuy = random.Next(purchaseProbability);
+            Console.WriteLine("Lemonade Sold!!");
+            return 1;
         }
-            //Need to have most customers buy but some not. 
-            //Conditional if customer purchases then add value to sold cups. 
+          
     }
 }
