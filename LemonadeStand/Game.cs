@@ -15,6 +15,7 @@ namespace LemonadeStand
         private int currentDay;
         private Weather weather;
         public Store store;
+        public Random random;
         
         //public List<Day> Days { get { return days; } }
         //Constructor- Remember to spawn your new variables. 
@@ -22,27 +23,14 @@ namespace LemonadeStand
         {
             days = new List<Day>();
             currentDay = 0;
-            weather = new Weather();
-            
+            //weather = new Weather();
+            //player = new Player();
             store = new Store();
-
+            random = new Random();
         }
 
         //Member Methods
 
-        //Create Current Day--Do I need this?
-        //public void CalculateNumDaysToPlay()
-        //{
-        //    Console.WriteLine("How many days would you like to play?");
-        //    numDays = int.TryParse(Console.ReadLine(), out int number);
-        //    for (int i = 0; i < numDay; i++)
-        //    {
-        //        Day day = new Day();
-        //        days.Add(day);
-        //        Console.WriteLine($"Day {i} begins!");
-        //    }
-        //}
-        //Need to be able to buy product.
         public void GoShopping()
         {
             //Display Inventory
@@ -58,12 +46,15 @@ namespace LemonadeStand
         {
             UserInterface.DisplayWelcome(); //Working
             //Show weeks weather.
-            weather.WeeklyForcast(); //Working but with an issue of duplicated keys.
+            weather = new Weather();
+            weather.WeeklyForcast(); //Working 
             //Create Store, show inventory and buy supplies. 
             player = new Player();
+            //Variable to hold the sum of the daily income for the durration of the game. 
+            double totalIncome = 0;
 
             //While Loop to run game each day with max of 7.
-            while (currentDay < 7)
+            while (currentDay < 2)
             {
                 if (player.wallet.Money > 0) //Need a way to exit the loop. Finish game or go broke.
                 {
@@ -75,16 +66,21 @@ namespace LemonadeStand
                 player.inventory.DisplayCurrentInventory();
                 player.recipe.DisplayRecipe();
                 Console.WriteLine($"You have {player.wallet.Money} dollars in your wallet.");
-                    //Allow player to change recipe?? Come back to this. 
+                //Allow player to change recipe?? Come back to this. 
 
-                    Console.WriteLine("Do you want to purchase more items? Y/N ");
+                Console.WriteLine("Do you want to purchase more items? Y/N ");
                 string response = Console.ReadLine().ToLower();
                 if (response == "y")
                 {
                     GoShopping();
                 }
-                //Make lemonade to sell.
+                //Make lemonade to sell. Need to convert if not enough product we go shopping. 
                 int pitchersToSell = player.MakePitcher();
+                    if (pitchersToSell == 0)
+                    {
+                        GoShopping();
+                        pitchersToSell = player.MakePitcher();
+                    }
                 //Convert pitchers to sell to cups. 
                 int cupsToSell = pitchersToSell * 8;
                 //Get user to set price of each cup. 
@@ -93,8 +89,9 @@ namespace LemonadeStand
                 //This will get todays weather as well as amount of customers that will buy lemonade.
                  days[currentDay].RunStand(player);
                  days[currentDay].DailySales(cupsToSell, player.recipe.price);
-                 //Need to calculate Daily sales with how many cups we can sell and the price.
-                 //calculate sales by multiplying lemonade to sell by the amount of customers. Lemonade to sell is in pitches and pitchers have 8 cups per pitcher. 
+                    double dailyIncome = days[currentDay].dailyIncome;
+                    player.wallet.AcceptMoney(dailyIncome);
+                    totalIncome += dailyIncome;
 
 
                     currentDay++;
@@ -106,8 +103,9 @@ namespace LemonadeStand
 
 
             }
-           
-
+            //Display end of game message. 
+            Console.WriteLine("Check out what you made. Thanks for playing!");
+            Console.WriteLine($"Total income: ${totalIncome}");
         }
 
     }

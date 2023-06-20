@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    internal class Weather 
+    internal class Weather : Game
     {
         //Member Variables- We define these types to be able to use in the constructor and the methods
         public List<string> condition; //Sunny, Rainy, Windy
         public int temperature; //Temp range of 90, 80, 70
         private Dictionary<int,string> weatherConditions; //Combination list of int and string to hold condition and temp
-        public Random random;
+        //public Random random;
         public string predictedCondition;
 
         //Constructor
@@ -24,18 +24,20 @@ namespace LemonadeStand
             temperature = 0;   
             condition = new List<string> {"Sunny", "Rainy", "Windy", "Sunny"}; //2 Sunny options to make odds of sunny better. 
             predictedCondition = "";
-            random = new Random();
+            //this.random = random;
             weatherConditions = new Dictionary<int, string> (); //Empty string we will add temp and condition to in methods.
             //PredictWeather(); //Method to get temp and condition.
         }
 
         //Member Methods
+        //SOLID
         public void PredictCondition()
         {
             int index = random.Next(condition.Count);
             predictedCondition = condition[index];
 
         }
+        //SOLID
         public void PredictTemp()
         {
             if (predictedCondition == "Sunny")
