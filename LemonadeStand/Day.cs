@@ -12,18 +12,21 @@ namespace LemonadeStand
     {
         //Member Variables (Has A)
         public Weather weather;
-        public List<Customer> customer;
+        public List<Customer> customers;
         public Random random;
-        public int purchaseProbability;
+        //public int purchaseProbability;
+        //public int bigSpenders;
+        public int estimatedCustomers;
 
         //Constructor
         public Day()
         {
             weather = new Weather();
             //This is a new list of customers. Not filled up yet. 
-            customer = new List<Customer>();
-            purchaseProbability = 0;
+            customers = new List<Customer>();
+            //purchaseProbability = 0;
             random = new Random();
+            estimatedCustomers = 0;
         }
         
         //Member Variables
@@ -32,66 +35,64 @@ namespace LemonadeStand
             weather.ActualWeatherForTheDay();
         }
 
-        public void RunStand()
+        public void RunStand(Player player)
         {
             //Actual Weather.
             DailyPredictedWeather();
             //Estimate Customers.
-            EstimateCustomers();
+            //Passing in the actual price of a cup from Game class where user sets price. 
+            EstimateCustomers(player.recipe.price);
             //Calculate sales depending on price. //Sales will depend on cups and price.
-            
+            //DailySales(int cupsToSell, player.recipe.price);
             
         }
 
         //Calculate Customers
-        public void EstimateCustomers()
+        //Passed in price as a parameter.
+        public void EstimateCustomers(double price)
         {
             //Customer estimated on daily condition
             int estimatedCustomers = 0;
             
             if (weather.predictedCondition == "Rainy")
             {
-                estimatedCustomers = 10;
-                purchaseProbability = 5;
+                estimatedCustomers = 10;            
             }
             else if (weather.predictedCondition == "Windy")
             {
-                estimatedCustomers = 20;
-                purchaseProbability = 10;
+                estimatedCustomers = 20;         
             }
             //Else carries sunny condition.
             else
             {
                 estimatedCustomers = 30;
-                purchaseProbability = 15;
             }
+            //Estimate customers from estimated customers variable to range in price. 
+            //If price is above $1 random range low end else high end.
+                if (price >= 1.25)
+                {
+                    estimatedCustomers = (int) (estimatedCustomers * 0.6);
+                }
+                else if (price >= .75 && price <= 1.25)
+                {
+                    estimatedCustomers = (int)(estimatedCustomers * 0.8);
+                }
+                else if (price < .75)
+                {
+                    estimatedCustomers = (int)(estimatedCustomers * 1.1);
+                }
             
-            //Loop to Create customers off of estimation depending on purchaseProbability. 
+            //Loop to Create customers off of estimation depending on price. 
             for (int i = 0; i < estimatedCustomers; i++)
             {
-                
-                if (purchaseProbability == 5)
-                {
-                    int bigSpenders = new Random().Next(5, 10);
-                    customer.Add(new Customer(bigSpenders));
-                }
-                else if (purchaseProbability == 10)
-                {
-                    int bigSpenders = new Random().Next(10, 20);
-                    customer.Add(new Customer(bigSpenders));
-                }
-                else if (purchaseProbability == 15)
-                {
-                    int bigSpenders = new Random().Next(20, 30);
-                    customer.Add(new Customer(bigSpenders));
-                }
+                customers.Add(new Customer());
 
             }
 
         }
 
         //Calculate sales depending on if inventory of cups is sold out. Display sales at the end. 
-       public void DailySales(int cupsToSell,  double price)
+       public void DailySales(int cupsToSell, double price)
         {
             //variable to hold total cups sold
             //variable to hold income from sales
@@ -99,28 +100,33 @@ namespace LemonadeStand
             double dailyIncome = 0;
            
             //Loop through the customers list to sell by price.
-            foreach (Customer person in customer)
+            /*for (int i = 0; i < customers.Count; i++)*///Should this be a foreach??
+            foreach (Customer customer in customers)
             {
                 //I need to bring in how many cups I have of lemonade made. 
                 Console.WriteLine("Ohh look lemonade. How much is a cup?");
                 if (cupsToSell > 0)
                 {
-                    int purchased = person.PurchaseLemonade();
-                    cupsSold++;
-                    cupsToSell--;
-                    dailyIncome += cupsSold * price;
+                    int purchased = customer.PurchaseLemonade();
+                    cupsSold += purchased;
+                    cupsToSell -= purchased;
+                    dailyIncome += purchased * price;
                  }
+                else if (cupsToSell > customers.Count)
+                {
+                    Console.WriteLine("I guess thats all the customers we get for the day.");
+                }
                 else
                 {
                     Console.WriteLine("Sorry, we are sold out!");
+                    Console.WriteLine($"Cups sold today: {cupsSold}");
+                    Console.WriteLine($"Todays take: ${dailyIncome}");
+                    Console.WriteLine("\nNext time we need to make more!!\n");
+                    break;
                 }
             }
             Console.WriteLine($"Cups sold today: {cupsSold}");
-            Console.WriteLine($"Todays take: {dailyIncome}");
+            Console.WriteLine($"Todays take: ${dailyIncome}");
         }
-            
-            
-
-
     }
 }

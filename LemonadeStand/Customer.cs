@@ -11,10 +11,10 @@ namespace LemonadeStand
     {
         //Member Variables
         public string name;
-        int toBuy;
+        //int toBuy;
 
         //Constructor
-        public Customer(int bigSpenders)
+        public Customer()
         {
             name = "Customer";
         }
@@ -24,6 +24,7 @@ namespace LemonadeStand
         //Needs to be able to purchase a cup depending on price.  
         public int PurchaseLemonade()
         {
+            
             Console.WriteLine("Lemonade Sold!!");
             return 1;
         }

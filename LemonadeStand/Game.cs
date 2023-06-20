@@ -74,9 +74,10 @@ namespace LemonadeStand
                 //Todays inventory and recipe with option to GoShopping
                 player.inventory.DisplayCurrentInventory();
                 player.recipe.DisplayRecipe();
-                //Allow player to change recipe?? Come back to this. 
-                
-                Console.WriteLine("Do you want to purchase more items? Y/N ");
+                Console.WriteLine($"You have {player.wallet.Money} dollars in your wallet.");
+                    //Allow player to change recipe?? Come back to this. 
+
+                    Console.WriteLine("Do you want to purchase more items? Y/N ");
                 string response = Console.ReadLine().ToLower();
                 if (response == "y")
                 {
@@ -84,17 +85,19 @@ namespace LemonadeStand
                 }
                 //Make lemonade to sell.
                 int pitchersToSell = player.MakePitcher();
-                    //Convert pitchers to sell to cups. 
-                    int cupsToSell = pitchersToSell * 8;
+                //Convert pitchers to sell to cups. 
+                int cupsToSell = pitchersToSell * 8;
                 //Get user to set price of each cup. 
-                Console.WriteLine("How much do you want to charge for a cup?");
+                Console.WriteLine("How much do you want to charge for a cup? (.50 or 1 or 1.25)");
                 player.recipe.price = double.Parse(Console.ReadLine());
                 //This will get todays weather as well as amount of customers that will buy lemonade.
-                 days[currentDay].RunStand();
+                 days[currentDay].RunStand(player);
                  days[currentDay].DailySales(cupsToSell, player.recipe.price);
-                    //Need to calculate Daily sales with how many cups we can sell and the price.
-                    //calculate sales by multiplying lemonade to sell by the amount of customers. Lemonade to sell is in pitches and pitchers have 8 cups per pitcher. 
-                    
+                 //Need to calculate Daily sales with how many cups we can sell and the price.
+                 //calculate sales by multiplying lemonade to sell by the amount of customers. Lemonade to sell is in pitches and pitchers have 8 cups per pitcher. 
+
+
+                    currentDay++;
                 }
                 else
                 {
